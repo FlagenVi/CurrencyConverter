@@ -14,11 +14,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println("Программа для конвертации курса валют. :)");
-        System.out.println("Выберите из перечисленных валют, которую вы хотите конвертировать:");
-//        Scanner in = new Scanner(System.in);
-//        System.out.print(": ");
-//        int num = in.nextInt();
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Программа для конвертации курса рубля. :)\n");
+
 
 
         GetExample example = new GetExample();
@@ -30,11 +29,25 @@ public class Main {
             //Парсим XML
             Document document = db.parse(new InputSource(new StringReader(response)));
 
-
+            NodeList valuteList = document.getElementsByTagName("Valute");
+            for(int i = 0; i < valuteList.getLength();i++)
+            {
+                Element valute = (Element) valuteList.item(i);
+                String name = valute.getElementsByTagName("Name").item(0).getTextContent();
+                String value = valute.getElementsByTagName("Value").item(0).getTextContent();
+                System.out.println((i+1) + ". " + name + ", Курс: " + value);
+            }
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+
+        System.out.println("Выберите из перечисленных валюту, в которую вы хотите конвертировать рубль:");
+        int num = in.nextInt();
+        System.out.println("Введите количество рублей, что у вас есть:");
+        float fnum = in.nextFloat();
+
+
     }
 }
